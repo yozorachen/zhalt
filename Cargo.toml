@@ -1,0 +1,9 @@
+[package]
+name = "zenhan-rs"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+
+[target.'cfg(target_os = "windows")'.dependencies]
+windows = { version = "0.62.2", features = ["Win32_UI_WindowsAndMessaging", "Win32_UI_Input_Ime"] }
