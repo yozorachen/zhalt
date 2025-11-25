@@ -8,6 +8,9 @@ use crate::args::Signal;
 const IMC_GETOPENSTATUS: usize = 5;
 const IMC_SETOPENSTATUS: usize = 6;
 
+const IME_CLOSE: isize = 0;
+const IME_OPEN: isize = 1;
+
 pub fn run(sig: &Signal) {
     // get a handler of the foreground window.
     let hwnd = unsafe { GetForegroundWindow() };
@@ -30,13 +33,30 @@ pub fn run(sig: &Signal) {
     let stat = match sig {
         Signal::GetCurrentIMEState => get_current_ime_state(ime_hwnd),
         Signal::CloseIME => {
-            set_ime_state(ime_hwnd, 0);
-            0
+            set_ime_state(ime_hwnd, IME_CLOSE);
+            IME_CLOSE
         },
         Signal::OpenIME => {
-            set_ime_state(ime_hwnd, 1);
-            1
+            set_ime_state(ime_hwnd, IME_OPEN);
+            IME_OPEN
         },
+        Signal::ToggleIME => {
+            let current_state = get_current_ime_state(ime_hwnd);
+            match current_state {
+                0 => {
+                    set_ime_state(ime_hwnd, IME_OPEN);
+                    IME_OPEN
+                }
+                1 => {
+                    set_ime_state(ime_hwnd, IME_CLOSE);
+                    IME_CLOSE
+                }
+                _ => {
+                    set_ime_state(ime_hwnd, IME_CLOSE);
+                    IME_CLOSE
+                }
+            }
+        }
     };
 
     println!("{}", stat); 

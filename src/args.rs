@@ -2,6 +2,7 @@ pub enum Signal {
     GetCurrentIMEState,
     OpenIME,
     CloseIME,
+    ToggleIME,
 }
 
 pub fn parse_args() -> Signal {
@@ -21,10 +22,17 @@ pub fn parse_args() -> Signal {
                     }
                 }
             },
-            Err(e) => {
-                eprintln!("{}", e);
+            Err(_) => { }
+        };
+
+        match args[1].as_str() {
+            "toggle" => {
+                return Signal::ToggleIME;
+            }
+            x => {
+                eprintln!("Error: Argument: {x} is unsupported.");
                 std::process::exit(1);
             }
-        };
+        }
     }
 }
