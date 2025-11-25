@@ -30,33 +30,9 @@ fn imf_specific_control(sig: &Signal) {
                 .spawn();
         }
         Signal::ToggleIME => {
-            // get the current state.
-            let output_result = Command::new("zhalt")
-                .output();
-            
-            match output_result {
-                Ok(output) => {
-                    let stdout = match str::from_utf8(&output.stdout) {
-                        Ok(s) => s.trim(),
-                        Err(_) => "?"
-                    };
-
-                    // prepare the next state.
-                    let arg = match stdout {
-                        "0" => "1",
-                        _ => "0",
-                    };
-
-                    Command::new("zhalt")
-                        .arg(arg)
-                        .spawn();
-                }
-                Err(_) => {
-                    Command::new("zhalt")
-                        .arg("0")
-                        .spawn();
-                }
-            }
+            Command::new("fcitx5-remote")
+                .arg("-t")
+                .spawn();
         }
     }
 }
