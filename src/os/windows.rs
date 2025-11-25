@@ -1,13 +1,14 @@
-use std::{env, process};
+use std::process;
 use windows::Win32::Foundation::{HWND, LPARAM, WPARAM};
 use windows::Win32::UI::Input::Ime::ImmGetDefaultIMEWnd;
 use windows::Win32::UI::WindowsAndMessaging::{GetForegroundWindow, SendMessageW, WM_IME_CONTROL};
+use crate::args::Signal;
 
 // these values will be used as LPARAM/WPARAM of WM_IME_CONTROL
 const IMC_GETOPENSTATUS: usize = 5;
 const IMC_SETOPENSTATUS: usize = 6;
 
-pub fn run() {
+pub fn run(sig: &Signal) {
     // get a handler of the foreground window.
     let hwnd = unsafe { GetForegroundWindow() };
 
@@ -26,23 +27,16 @@ pub fn run() {
         process::exit(1);
     }
 
-    let args: Vec<String> = env::args().collect();
-
-    let stat: isize = if args.len() < 2 {
-        get_current_ime_state(ime_hwnd)
-    } else {
-        let specified_state = match args[1].parse::<isize>() {
-            Ok(s) => s,
-            Err(_) => {
-                // failed to convert types.
-                eprintln!("Error: Invalid status argument provided.");
-                process::exit(1);
-            }
-        };
-
-        set_ime_state(ime_hwnd, specified_state);
-
-        specified_state
+    let stat = match sig {
+        Signal::GetCurrentIMEState => get_current_ime_state(ime_hwnd),
+        Signal::CloseIME => {
+            set_ime_state(ime_hwnd, 0);
+            0
+        },
+        Signal::OpenIME => {
+            set_ime_state(ime_hwnd, 1);
+            1
+        },
     };
 
     println!("{}", stat); 
