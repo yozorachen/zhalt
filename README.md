@@ -24,3 +24,30 @@ To turn off the IME:
 ```
 <executable> 0
 ```
+
+To toggle the current state of the IME:
+
+```
+<executable> toggle
+```
+
+
+## Build
+
+For Windows users:
+
+```
+cargo install --path <project_root_dir>
+```
+
+...where the `<project_root_dir>` is the same directory as Cargo.toml is.
+
+For Linux users:
+
+```
+cargo install --path <project_root_dir> --features <your_input_method_framework>
+```
+
+We are currently supporting the following IMFs (Input Method Frameworks):
+
+- fcitx5
