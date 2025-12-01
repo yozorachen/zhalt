@@ -1,8 +1,16 @@
 # zhalt
 
-A simple rust program that provides abstracted IME control layer across several operating systems.
+A CLI that provides abstracted IME control layer across several operating systems.
 
-This program is heavily influenced by [this project](https://github.com/iuchim/zenhan). The majority of the Windows-specific process is a re-implementation of the aforementioned project in Rust.
+This program is heavily influenced by [zenhan](https://github.com/iuchim/zenhan). The large part of the Windows-specific implementation is just a Rust re-implementation of the aforementioned project.
+
+
+## Support
+
+This program is currently supporting the following targets:
+
+- Windows
+- Linux (fcitx5)
 
 
 ## Usage
@@ -34,20 +42,16 @@ To toggle the current state of the IME:
 
 ## Build
 
-For Windows users:
+### Windows
 
 ```
-cargo install --path <project_root_dir>
+cargo install --path <the_directory_where_Cargo.toml_exists>
 ```
 
-...where the `<project_root_dir>` is the same directory as Cargo.toml is.
-
-For Linux users:
+### Linux
 
 ```
-cargo install --path <project_root_dir> --features <your_input_method_framework>
+cargo install --path <the_directory_where_Cargo.toml_exists> --features <your_input_method_framework>
 ```
 
-We are currently supporting the following IMFs (Input Method Frameworks):
-
-- fcitx5
+See also "Support" to get what kind of Input Method Frameworks be available.
