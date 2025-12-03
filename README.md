@@ -7,7 +7,7 @@ This program is heavily influenced by [zenhan](https://github.com/iuchim/zenhan)
 
 ## Notice
 
-This is just a hobby program, and furthermore, the interfaces will be subjected to breaking changes in the future.
+This is merely a hobby program, the interfaces will be subjected to breaking changes in the future.
 
 
 ## Support
@@ -42,6 +42,38 @@ To toggle the current state of the IME:
 
 ```
 <executable> toggle
+```
+
+### Integrate with Vim/Neovim
+
+You can automatically disable your Input Method when returning from INSERT mode to NORMAL mode in Vim/Neovim.
+
+Append the following code snippet to your vimrc, or write a similar piece of code in your config file:
+
+```vim
+if has("unix")
+    if executable("zhalt")
+        if has("nvim")
+            autocmd InsertLeave * call jobstart(['zhalt', '0'])
+            autocmd VimEnter * call jobstart(['zhalt', '0'])
+        else
+            autocmd InsertLeave * call job_start(['zhalt', '0'])
+            autocmd VimEnter * call job_start(['zhalt', '0'])
+        endif
+    endif
+endif
+
+if has("win32")
+    if executable("zhalt.exe")
+        if has("nvim")
+            autocmd InsertLeave * call jobstart(['zhalt.exe', '0'])
+            autocmd VimEnter * call jobstart(['zhalt.exe', '0'])
+        else
+            autocmd InsertLeave * call job_start(['zhalt.exe', '0'])
+            autocmd VimEnter * call job_start(['zhalt.exe', '0'])
+        endif
+    endif
+endif
 ```
 
 
