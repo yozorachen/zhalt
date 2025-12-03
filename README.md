@@ -1,8 +1,8 @@
 # zhalt
 
-A CLI that provides abstracted IME control layer across several operating systems.
+A Simple CLI wrapper that provides a unified interface for various Input Methods across different environments.
 
-This program is heavily influenced by [zenhan](https://github.com/iuchim/zenhan). The large part of the Windows-specific implementation is just a Rust re-implementation of the aforementioned project.
+This program is heavily influenced by [zenhan](https://github.com/iuchim/zenhan). Large part of the Windows-specific implementation is just a Rust re-implementation of the aforementioned project.
 
 
 ## Support
@@ -54,4 +54,4 @@ cargo install --path <the_directory_where_Cargo.toml_exists>
 cargo install --path <the_directory_where_Cargo.toml_exists> --features <your_input_method_framework>
 ```
 
-See also "Support" to get what kind of Input Method Frameworks be available.
+See also "Support" section to find out which Input Method Frameworks are supported.
