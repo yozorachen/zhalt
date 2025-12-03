@@ -5,6 +5,11 @@ A Simple CLI wrapper that provides a unified interface for various Input Methods
 This program is heavily influenced by [zenhan](https://github.com/iuchim/zenhan). Large part of the Windows-specific implementation is just a Rust re-implementation of the aforementioned project.
 
 
+## Notice
+
+This is just a hobby program, and furthermore, the interfaces will be subjected to breaking changes in the future.
+
+
 ## Support
 
 This program is currently supporting the following targets:
