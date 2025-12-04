@@ -2,7 +2,9 @@
 
 A Simple CLI wrapper that provides a unified interface for various Input Methods across different environments.
 
-This program is heavily influenced by [zenhan](https://github.com/iuchim/zenhan). Large part of the Windows-specific implementation is just a Rust re-implementation of the aforementioned project.
+This program is heavily influenced by [zenhan](https://github.com/iuchim/zenhan). 
+
+Large part of the Windows-specific implementation is a Rust re-implementation of the aforementioned project.
 
 
 ## Notice
@@ -85,10 +87,8 @@ endif
 cargo install --path <the_directory_where_Cargo.toml_exists>
 ```
 
-### Linux
+### Linux(fcitx5)
 
 ```
-cargo install --path <the_directory_where_Cargo.toml_exists> --features <your_input_method_framework>
+cargo install --path <the_directory_where_Cargo.toml_exists> --features "fcitx5"
 ```
-
-See also "Support" section to find out which Input Method Frameworks are supported.
