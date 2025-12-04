@@ -1,8 +1,8 @@
+use crate::args::Signal;
 use std::process;
 use windows::Win32::Foundation::{HWND, LPARAM, WPARAM};
 use windows::Win32::UI::Input::Ime::ImmGetDefaultIMEWnd;
 use windows::Win32::UI::WindowsAndMessaging::{GetForegroundWindow, SendMessageW, WM_IME_CONTROL};
-use crate::args::Signal;
 
 const TARGET_ENV: &str = "Windows";
 
@@ -36,36 +36,40 @@ pub fn run(sig: &Signal) {
         process::exit(1);
     }
 
-    let stat = match sig {
-        Signal::GetCurrentIMEState => get_current_ime_state(ime_hwnd),
+    match sig {
+        Signal::ShowHelp => {
+            // unreachable!();
+        }
+        Signal::GetCurrentIMEState => {
+            let stat = get_current_ime_state(ime_hwnd);
+            println!("{}", stat);
+        }
         Signal::CloseIME => {
             set_ime_state(ime_hwnd, IME_CLOSE);
-            IME_CLOSE
-        },
+            println!("{}", IME_CLOSE);
+        }
         Signal::OpenIME => {
             set_ime_state(ime_hwnd, IME_OPEN);
-            IME_OPEN
-        },
+            println!("{}", IME_OPEN);
+        }
         Signal::ToggleIME => {
             let current_state = get_current_ime_state(ime_hwnd);
             match current_state {
                 0 => {
                     set_ime_state(ime_hwnd, IME_OPEN);
-                    IME_OPEN
+                    println!("{}", IME_OPEN);
                 }
                 1 => {
                     set_ime_state(ime_hwnd, IME_CLOSE);
-                    IME_CLOSE
+                    println!("{}", IME_CLOSE);
                 }
                 _ => {
                     set_ime_state(ime_hwnd, IME_CLOSE);
-                    IME_CLOSE
+                    println!("{}", IME_CLOSE);
                 }
             }
         }
     };
-
-    println!("{}", stat); 
 }
 
 /// This function obtains the current state of the IME.
