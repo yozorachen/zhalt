@@ -1,4 +1,5 @@
 pub enum Signal {
+    ShowHelp,
     GetCurrentIMEState,
     OpenIME,
     CloseIME,
@@ -8,31 +9,40 @@ pub enum Signal {
 pub fn parse_args() -> Signal {
     let args: Vec<String> = std::env::args().collect();
 
+    let mut pk = args.iter().peekable();
+
+    while let Some(arg) = pk.next() {
+        match arg.as_str() {
+            "-h" | "--help" => return Signal::ShowHelp,
+            _ => {}
+        }
+    }
+
     if args.len() < 2 {
         return Signal::GetCurrentIMEState;
-    } else {
-        match args[1].parse::<isize>() {
-            Ok(i) => {
-                match i {
-                    0 => return Signal::CloseIME,
-                    1 => return Signal::OpenIME,
-                    x => {
-                        eprintln!("Error: Argument: {x} is unsupported.");
-                        std::process::exit(1);
-                    }
-                }
-            },
-            Err(_) => { }
-        };
+    }
 
-        match args[1].as_str() {
-            "toggle" => {
-                return Signal::ToggleIME;
+    match args[1].parse::<isize>() {
+        Ok(i) => {
+            match i {
+                0 => return Signal::CloseIME,
+                1 => return Signal::OpenIME,
+                x => {
+                    eprintln!("Error: Argument: {x} is unsupported.");
+                    std::process::exit(1);
+                }
             }
-            x => {
-                eprintln!("Error: Argument: {x} is unsupported.");
-                std::process::exit(1);
-            }
+        },
+        Err(_) => { }
+    };
+
+    match args[1].as_str() {
+        "toggle" => {
+            return Signal::ToggleIME;
+        }
+        x => {
+            eprintln!("Error: Argument: {x} is unsupported.");
+            std::process::exit(1);
         }
     }
 }

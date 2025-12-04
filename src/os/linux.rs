@@ -23,7 +23,12 @@ pub fn run(sig: &Signal) {
 /// the list, that means the English Keyboard is the "default".
 #[cfg(feature = "fcitx5")]
 fn imf_specific_control(sig: &Signal) {
+
     match *sig {
+        Signal::ShowHelp => {
+            const TARGET_ENV: &str = "Linux(fcitx5)";
+            crate::utils::show_help(TARGET_ENV);
+        },
         Signal::GetCurrentIMEState => {
             // The result will be 1 or 2.
             // 1 => Currently using the first Input Method in the list.
@@ -59,6 +64,10 @@ fn imf_specific_control(sig: &Signal) {
     // TODO
 
     match *sig {
+        Signal::ShowHelp => {
+            const TARGET_ENV: &str = "Linux(ibus)";
+            crate::utils::show_help(TARGET_ENV);
+        },
         Signal::GetCurrentIMEState => {
             // Show the current engine.
             Command::new("ibus")

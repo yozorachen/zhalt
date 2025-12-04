@@ -4,6 +4,8 @@ use windows::Win32::UI::Input::Ime::ImmGetDefaultIMEWnd;
 use windows::Win32::UI::WindowsAndMessaging::{GetForegroundWindow, SendMessageW, WM_IME_CONTROL};
 use crate::args::Signal;
 
+const TARGET_ENV: &str = "Windows";
+
 // these values will be used as LPARAM/WPARAM of WM_IME_CONTROL
 const IMC_GETOPENSTATUS: usize = 5;
 const IMC_SETOPENSTATUS: usize = 6;
@@ -12,6 +14,10 @@ const IME_CLOSE: isize = 0;
 const IME_OPEN: isize = 1;
 
 pub fn run(sig: &Signal) {
+    if let Signal::ShowHelp = sig {
+        crate::utils::show_help(TARGET_ENV);
+    }
+
     // get a handler of the foreground window.
     let hwnd = unsafe { GetForegroundWindow() };
 

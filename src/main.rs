@@ -1,5 +1,6 @@
 mod os;
 mod args;
+mod utils;
 
 fn main() {
     let sig = crate::args::parse_args();
